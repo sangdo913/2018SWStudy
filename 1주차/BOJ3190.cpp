@@ -16,7 +16,7 @@ deque<pii> dq;
 int map[100][100], n, k;
 int conv[256];
 
-int BOJ3190() {
+int main() {
 	cin >> n >> k;
 	conv['L'] = -1;
 	conv['D'] = 1;

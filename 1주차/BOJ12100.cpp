@@ -100,7 +100,7 @@ int dfs(int depth, int dir, int max) {
 	return num;
 }
 
-int BOJ12100() {
+int main() {
 	cin >> n;
 
 	for (int i = 0; i < n; i++) {
