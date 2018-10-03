@@ -15,69 +15,38 @@ int move(int d) {
 	int que[20], s = 0, e = 0;
 	int res = 0;
 
-	if ((d & 2) == 0) {
-		for (int j = 0; j < n; j++) {
-			s =  e = 0;
-			bool canpl = false;
-			int r = start[d] * (n - 1);
-			while (r >= 0 && r < n) {
-				if (map[r][j]) {
-					if (canpl && que[e-1] == map[r][j]) {
-						canpl = false;
-						que[e-1] <<= 1;
-						map[r][j] = 0;
-					}
+    for (int j = 0; j < n; j++) {
+        s =  e = 0;
+        bool canpl = false;
+        int r = start[d] * (n - 1);
+        while (r >= 0 && r < n) {
+            int &nblock = d&2 ? map[j][r] : map[r][j]; 
+            if (nblock) {
+                if (canpl && que[e-1] == nblock) {
+                    canpl = false;
+                    que[e-1] <<= 1;
+                    nblock = 0;
+                }
 
-					else {
-						canpl = true;
-						que[e++] = map[r][j];
-						map[r][j] = 0;
-					}
-				}
-				r += dm[d];
-			}
+                else {
+                    canpl = true;
+                    que[e++] = nblock;
+                    nblock = 0;
+                }
+            }
+            r += dm[d];
+        }
 
-			r = start[d] * (n - 1);
+        r = start[d] * (n - 1);
 
-			while (s!=e) {
-				map[r][j] = que[s++];
-				res = MAX(res, map[r][j]);
-				r += dm[d];
-			}
-		}
-	}
-
-	else {
-		for (int i = 0; i < n; i++) {
-			s = e = 0;
-			bool canpl = false;
-			int c = start[d] * (n - 1);
-
-			while (c >= 0 && c < n) {
-				if (map[i][c]) {
-					if (canpl && que[e - 1] == map[i][c]) {
-						canpl = false;
-						que[e - 1] <<= 1;
-						map[i][c] = 0;
-					}
-					else {
-						canpl = true;
-						que[e++] = map[i][c];
-						map[i][c] = 0;
-					}
-				}
-				c += dm[d];
-			}
-			
-			c = start[d] * (n - 1);
-
-			while (s!=e) {
-				map[i][c] = que[s++];
-				res = MAX(res, map[i][c]);
-				c += dm[d];
-			}
-		}
-	}
+        while (s!=e) {
+            int &nblock = d&2 ? map[j][r] : map[r][j];
+            nblock = que[s++];
+            res = MAX(res, nblock);
+            r += dm[d];
+        }
+    }
+	
 	return res;
 }
 
